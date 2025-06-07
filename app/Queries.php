@@ -11,4 +11,12 @@ class Queries {
         $stmt=$this->pdo->query($query);
         return $stmt->fetchAll();
     }
+    public function getByID(int $id){
+        $query = 'SELECT * FROM products WHERE ';
+        $stmt=$this->pdo->query($query);
+        return $stmt->fetch();
+    }
+    public function addProduct(array $variables){
+
+    }
 }
