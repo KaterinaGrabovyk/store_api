@@ -3,7 +3,7 @@ namespace App;
 use PDO;
 
 class Config{
-    protected PDO $pdo;
+    private $pdo;
     public function __construct()
     {
     $defaultOptions = [
@@ -21,5 +21,8 @@ class Config{
     } catch (\PDOException $e) {
     echo "Database error: " . $e->getMessage();
     }
+    }
+    public function getConnect():PDO{
+        return $this->pdo;
     }
 }
