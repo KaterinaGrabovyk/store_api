@@ -15,7 +15,7 @@ class App{
      public function run(){
         try{
             $this->router->resolve($this->request['uri'],$this->request['method']);
-        }catch(NoRouterException $e){
+        }catch(NoRouterException){
             http_response_code(404);
      }
     }

@@ -10,25 +10,24 @@ class QueriesController{
     {
         $this->query=new Queries();
     }
-    public function callMethod(string $method, array $params=null){
-        header('Content-Type:application/json');
-        $this->$method($params);
-    }
-    //* Get methods
-     public function getAll(){
+    //* Handle queries
+    public function callMethod(string $method, array $params=[]){
         
-        echo json_encode($this->query->getAllProducts());
-    }
-    public function getId(array $param){
-        
-        echo json_encode($this->query->getByID((int)$param[0]));
-    }
-    //* Add and Update methods
-    public function add(){
-        
-        echo json_encode($this->query->addProduct());
-    }
-    public function update(array $param){
-        echo json_encode($this->query->updateProduct((int)$param[0]));
+        if (!method_exists($this->query, $method)) {
+            http_response_code(404);
+            echo json_encode(['error' => 'Method not found']);
+            return;
+        }
+
+        try {
+            $result = empty($params)
+                ? $this->query->$method()
+                : $this->query->$method($params);
+            header('Content-Type:application/json');
+            echo json_encode($result);
+        } catch (\Throwable $e) {
+            http_response_code(500);
+            echo json_encode(['error' => $e->getMessage()]);
+        }
     }
 }

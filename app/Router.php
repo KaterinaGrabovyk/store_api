@@ -16,6 +16,12 @@ class Router{
     public function put(string $route, callable|array $action ){
         return $this->register('PUT',$route,$action);
     }
+    public function patch(string $route, callable|array $action ){
+        return $this->register('PATCH',$route,$action);
+    }
+    public function delete(string $route, callable|array $action ){
+        return $this->register('DELETE',$route,$action);
+    }
     //* Routes handler
     private function register(string $method, string $route, callable|array $action):self{
         $this->routes[$method][$route]=$action;
@@ -30,17 +36,17 @@ class Router{
             $pattern = "#^" . $pattern . "$#";
             if (preg_match($pattern, $route, $params)) {
                 array_shift($params); 
+                 if (! $action) {
+                throw new NoRouterException();
+                }
                 if (is_callable($action)) {
                     return call_user_func_array($action, $params);
                 }
-
                 if (is_array($action)) {
                     [$class, $method] = $action;
                     if (class_exists($class)) {
                         $class = new $class();
-                        if (method_exists($class, $method)) {
-                            return $class->callMethod($method, $params);
-                        }
+                        return $class->callMethod($method, $params);
                     }
                 }
             }

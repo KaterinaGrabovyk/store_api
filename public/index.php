@@ -10,13 +10,14 @@ $dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
 $dotenv->load();
 
 //* routes
-
 $router=new Router();
 $router
     ->get('/products',[QueriesController::class,'getAll'])
-    ->get('/products/{:id}',[QueriesController::class,'getId'])
+    ->get('/products/{:id}',[QueriesController::class,'getbyId'])
     ->post('/add',[QueriesController::class,'add'])
     ->put('/products/update/{:id}',[QueriesController::class,'update'])
+    ->patch('/products/update/{:id}',[QueriesController::class,'patch'])
+    ->delete('/products/delete/{:id}',[QueriesController::class,'delete'])
     ;
 
 
