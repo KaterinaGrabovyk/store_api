@@ -1,0 +1,226 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Products API",
+    "version": "1.0.0",
+    "description": "API для керування продуктами"
+  },
+  "paths": {
+    "/products": {
+      "get": {
+        "summary": "Отримати всі продукти",
+        "operationId": "getAllProducts",
+        "responses": {
+          "200": {
+            "description": "Список продуктів",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Product" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/{id}": {
+      "get": {
+        "summary": "Отримати продукт за ID",
+        "operationId": "getProductById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Продукт",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Product" }
+              }
+            }
+          },
+          "404": {
+            "description": "Продукт не знайдено"
+          }
+        }
+      }
+    },
+    "/products/add": {
+      "post": {
+        "summary": "Додати новий продукт",
+        "operationId": "addProduct",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": { "$ref": "#/components/schemas/ProductInput" }
+            },
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ProductInput" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Продукт додано",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/update/{id}": {
+      "put": {
+        "summary": "Оновити продукт повністю",
+        "operationId": "updateProduct",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": { "$ref": "#/components/schemas/ProductInput" }
+            },
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ProductInput" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Продукт оновлено",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Частково оновити продукт",
+        "operationId": "patchProduct",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": { "$ref": "#/components/schemas/ProductPatchInput" }
+            },
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ProductPatchInput" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Продукт частково оновлено",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/delete/{id}": {
+      "delete": {
+        "summary": "Видалити продукт",
+        "operationId": "deleteProduct",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Продукт видалено",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Product": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "title": { "type": "string" },
+          "price": { "type": "number", "format": "float" },
+          "amount": { "type": "integer" },
+          "in_stock": { "type": "integer", "enum": [0, 1] }
+        }
+      },
+      "ProductInput": {
+        "type": "object",
+        "required": ["title", "price", "amount"],
+        "properties": {
+          "title": { "type": "string" },
+          "price": { "type": "number", "format": "float" },
+          "amount": { "type": "integer" }
+        }
+      },
+      "ProductPatchInput": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string" },
+          "price": { "type": "number", "format": "float" },
+          "amount": { "type": "integer" }
+        }
+      }
+    }
+  }
+}
