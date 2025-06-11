@@ -33,20 +33,21 @@ class Queries {
         return ['message'=>'added new product with id = ' . $id];
     }
     public function update(array $params){
+        parse_str(file_get_contents('php://input'), $input);
         $query="UPDATE products SET  title = :title,price = :price,amount = :amount,in_stock = :in_stock WHERE id = :id";
         $this->isExists((int)$params[0]);
-        $this->insert($_REQUEST,$query,(int)$params[0]);
+        $this->insert($input,$query,(int)$params[0]);
         return ['message'=>'updated item with id = ' . $params[0]];
     }
     public function patch(array $params){
-
+        parse_str(file_get_contents('php://input'), $input);
         $params=[':id'=>(int)$params[0]];
-        foreach ($_REQUEST as $key => $value) {
+        foreach ($input as $key => $value) {
             $fields[] = "$key = :$key";
             $params[":$key"] = $value;
         }
-        if(isset($_REQUEST['amount'])){
-        $in_stock = ($_REQUEST['amount'] > 0) ? 1 : 0;
+        if(isset($input['amount'])){
+        $in_stock = ($input['amount'] > 0) ? 1 : 0;
         $params[':in_stock']=$in_stock;
         $fields[]="in_stock = :in_stock";
         }
