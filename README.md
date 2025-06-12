@@ -14,7 +14,7 @@ To run this program you are required to have VScode and Docker.
 1. Create folder where you would copy repo to
 2. Open console and clone the repository:
     ```bash
-    git clone https://github.com/KaterinaGrabovyk/book-notes.git https://github.com/KaterinaGrabovyk/store_api.git [YOUR FOLDER NAME]
+    git clone https://github.com/KaterinaGrabovyk/store_api.git [YOUR FOLDER NAME]
     ```
 3. cd into folder
 4. create ***.env*** file, copy paste text from **.env.example** and fill with your data. [*](*)
