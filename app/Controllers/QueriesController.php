@@ -3,6 +3,8 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Queries;
+use Exception;
+use Throwable;
 
 class QueriesController{
     private $query;
@@ -26,7 +28,7 @@ class QueriesController{
             header('Content-Type:application/json');
             echo json_encode($result);
         } catch (\Throwable $e) {
-            http_response_code(500);
+            http_response_code((int)$e->getMessage());
             echo json_encode(['error' => $e->getMessage()]);
         }
     }
